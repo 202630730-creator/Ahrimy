@@ -3,95 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🧸 웩! 아기 깨우지 마! (심야 정전 모드)</title>
+    <title>🎀 웩! 아기 깨우지 마! (첫째 난입 모드)</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
 
         * { box-sizing: border-box; user-select: none; }
         body {
             margin: 0; padding: 0;
-            background-color: #1a1025;
+            background-color: #ffe6f0;
             font-family: 'Jua', sans-serif;
-            color: #5a4b5c;
+            color: #6b4c5e;
             display: flex; justify-content: center; align-items: center;
             height: 100vh; overflow: hidden;
         }
         #game-container {
             width: 100%; max-width: 500px;
             height: 100vh; max-height: 800px;
-            background: #231b2e;
+            background: #fff5f8;
             display: flex; flex-direction: column;
             justify-content: space-between; align-items: center;
-            padding: 12px; position: relative;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
-            border-radius: 20px;
+            padding: 14px; position: relative;
+            box-shadow: 0 12px 35px rgba(230, 150, 180, 0.4);
+            border-radius: 28px;
+            border: 4px solid #ffccd5;
         }
 
         header {
-            width: 100%; background: #2d223c; padding: 10px 14px;
-            border-radius: 14px; border: 2px dashed #6b4682; z-index: 5;
-            color: #f3d2e2;
+            width: 100%; background: #fff; padding: 10px 16px;
+            border-radius: 18px; border: 3px solid #ffb3c1; z-index: 5;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
         }
         .top-info {
             display: flex; justify-content: space-between; align-items: center;
-            font-size: 15px; margin-bottom: 6px;
+            font-size: 16px; margin-bottom: 6px;
         }
         .status-badge {
-            padding: 3px 10px; border-radius: 10px; font-size: 13px; color: white;
+            padding: 4px 12px; border-radius: 12px; font-size: 13px; color: white;
+            font-weight: bold;
         }
-        .status-deep { background-color: #38a169; }
-        .status-light { background-color: #dd6b20; }
-        .status-danger { background-color: #e53e3e; animation: blink 0.3s infinite; }
+        .status-deep { background-color: #a8e6cf; color: #2d6a4f; }
+        .status-light { background-color: #ffd3b6; color: #d97706; }
+        .status-danger { background-color: #ff8b94; color: #9b1c1c; animation: pop 0.4s infinite alternate; }
 
-        @keyframes blink { 50% { opacity: 0.3; } }
+        @keyframes pop { transform: scale(1); } 100% { transform: scale(1.05); }
 
         .gauge-box {
-            width: 100%; background: #1a202c; height: 16px;
-            border-radius: 8px; overflow: hidden; border: 2px solid #4a5568;
+            width: 100%; background: #fff0f3; height: 18px;
+            border-radius: 10px; overflow: hidden; border: 2px solid #ffb3c1;
         }
         #noise-bar {
             width: 0%; height: 100%;
-            background: linear-gradient(90deg, #319795, #d69e2e, #e53e3e);
+            background: linear-gradient(90deg, #b5ead7, #ffdac1, #ff9aa2);
             transition: width 0.05s linear;
         }
 
         #room-viewport {
             position: relative;
             width: 100%; flex-grow: 1; margin: 8px 0;
-            border-radius: 14px; overflow: hidden;
-            border: 3px solid #4a335a;
-            background-image: url('https://images.canvas.generated/watermarked_img_4285475024595357183.png');
-            background-size: cover;
-            background-position: center;
+            border-radius: 20px; overflow: hidden;
+            border: 4px solid #ffccd5;
+            background-color: #fff9fa;
         }
 
         canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 
         footer {
-            width: 100%; text-align: center; font-size: 13px; color: #b794f4;
-            background: #2d223c; padding: 8px; border-radius: 10px; z-index: 5;
+            width: 100%; text-align: center; font-size: 13px; color: #a27b8c;
+            background: #fff; padding: 10px; border-radius: 14px; z-index: 5;
+            border: 2px solid #ffccd5;
         }
 
         .overlay {
             position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(20, 15, 30, 0.95);
+            background: rgba(255, 245, 248, 0.96);
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
-            z-index: 100; padding: 25px; text-align: center; border-radius: 20px;
-            color: #fff;
+            z-index: 100; padding: 25px; text-align: center; border-radius: 28px;
         }
-        .overlay h1 { font-size: 26px; color: #fbb6ce; margin-bottom: 8px; }
-        .overlay p { font-size: 14px; line-height: 1.5; color: #cbd5e0; margin-bottom: 15px; }
+        .overlay h1 { font-size: 26px; color: #ff5c8d; margin-bottom: 8px; }
+        .overlay p { font-size: 14px; line-height: 1.5; color: #835268; margin-bottom: 15px; }
         .guide-box {
-            background: #2d3748; padding: 12px; border-radius: 10px;
+            background: #fff; padding: 14px; border-radius: 16px;
             text-align: left; font-size: 13px; margin-bottom: 15px;
-            border: 2px solid #718096; width: 100%; color: #e2e8f0;
+            border: 2px solid #ffb3c1; width: 100%; color: #6b4c5e;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.02);
         }
         .start-btn {
-            padding: 10px 30px; font-size: 18px; font-family: 'Jua', sans-serif;
-            background: #d53f8c; color: white; border: none; border-radius: 20px;
-            cursor: pointer; box-shadow: 0 4px 10px rgba(213, 63, 140, 0.4);
+            padding: 12px 32px; font-size: 18px; font-family: 'Jua', sans-serif;
+            background: #ff75a0; color: white; border: none; border-radius: 22px;
+            cursor: pointer; box-shadow: 0 6px 15px rgba(255, 117, 160, 0.4);
+            transition: 0.2s;
         }
+        .start-btn:hover { transform: translateY(-2px); background: #ff5c8d; }
         .hidden { display: none !important; }
     </style>
 </head>
@@ -100,8 +103,8 @@
 <div id="game-container">
     <header>
         <div class="top-info">
-            <div>아기: <span id="baby-state" class="status-badge status-deep">😴 꿀잠</span></div>
-            <div>⏱️ <span id="timer" style="color:#fc8181;">25</span>초 | ⚡ <span id="event-text" style="color:#f6e05e;">정상</span></div>
+            <div>아기 상태: <span id="baby-state" class="status-badge status-deep">😴 꿀잠</span></div>
+            <div>⏱️ <span id="timer" style="color:#ff5c8d;">30</span>초 | 👦 첫째 차단</div>
         </div>
         <div class="gauge-box">
             <div id="noise-bar"></div>
@@ -113,27 +116,27 @@
     </div>
 
     <footer>
-        🎮 <b>[방향키/WASD]</b> 이동 | <b>[Shift]</b> 조용히 걷기
+        🎮 <b>[방향키/WASD]</b> 엄마/아빠 이동 | <b>[Shift]</b> 쌕쌕 살금살금
     </footer>
 
     <!-- 시작 화면 -->
     <div id="start-screen" class="overlay">
-        <h1>⚡ 심야 정전 모드! (매우 어려움)</h1>
-        <p>침대 위에서 뒤척이는 아기를 잘 관찰하세요!</p>
+        <h1>🧸 웩! 아기 깨우지 마!</h1>
+        <p>엄마/아빠가 되어 둘째를 지키고 육아용품을 챙기세요!</p>
         <div class="guide-box">
-            • <b>👶 아기의 상태:</b> 꿀잠 ➔ 뒤척이기(몸부림) ➔ **기척 파동(얼음!)**<br>
-            • <b>⚡ 갑작스러운 정전:</b> 불이 꺼지면 발밑 시야만 살짝 보입니다!<br>
-            • <b>💥 이동형 장난감:</b> 오리와 블록이 바닥에서 살짝씩 움직입니다.<br>
-            • <b>⏱️ 25초 제한시간:</b> 지체할 시간이 없습니다!
+            • <b>🍼 물건 챙기기:</b> 방에 놓인 육아용품 3개를 조용히 수집하세요.<br>
+            • <b>👦 첫째 난입 주의:</b> 장난치러 문 열고 들어오는 첫째 아들에게 부딪혀 **밖으로 돌려보내세요!** (아기 침대에 닿으면 실패!)<br>
+            • <b>⚡ 정전 이벤트:</b> 불이 꺼지면 손전등 빛으로만 시야가 보입니다.<br>
+            • <b>⏱️ 30초 제한시간:</b> 서둘러 물건을 챙기고 출구로 탈출하세요!
         </div>
-        <button class="start-btn" onclick="initGame()">악마 난이도 시작</button>
+        <button class="start-btn" onclick="initGame()">육아 미션 시작!</button>
     </div>
 
     <!-- 엔딩 화면 -->
     <div id="end-screen" class="overlay hidden">
         <h1 id="end-title">게임 오버</h1>
         <p id="end-desc">아기가 깨어났습니다!</p>
-        <button class="start-btn" onclick="initGame()">재도전</button>
+        <button class="start-btn" onclick="initGame()">다시 하기</button>
     </div>
 </div>
 
@@ -143,21 +146,31 @@ const ctx = canvas.getContext('2d');
 
 let isPlaying = false;
 let noiseLevel = 0;
-let timeLeft = 25;
+let timeLeft = 30;
 let timerInterval = null;
-let isBlackout = false; // 정전 여부
+let isBlackout = false;
 
 const keys = { ArrowUp: false, ArrowDown: false, ArrowLeft: false, ArrowRight: false, w: false, a: false, s: false, d: false, Shift: false };
 
-const player = { x: 225, y: 470, radius: 14, speed: 3.0, sneakSpeed: 1.3 };
+// 부모 (플레이어)
+const parent = { x: 225, y: 470, radius: 15, speed: 2.8, sneakSpeed: 1.3 };
 
-// 아기 객체 (침대 중앙 위치)
+// 둘째 아기 (침대)
 const baby = {
-    x: 225, y: 220,
-    state: 'DEEP', // DEEP, SENSITIVE, SCANNING
+    x: 225, y: 180,
+    state: 'DEEP',
     timer: 0,
     scanRadius: 0,
-    bodyAngle: 0 // 뒤척이는 애니메이션용
+    breath: 0
+};
+
+// 첫째 아들 (난입 캐릭터)
+const brother = {
+    active: false,
+    x: 225, y: -30,
+    speed: 1.2,
+    radius: 14,
+    timer: 0
 };
 
 let items = [];
@@ -169,23 +182,22 @@ window.addEventListener('keyup', e => { if (e.key in keys || ['w','a','s','d','S
 function initGame() {
     isPlaying = true;
     noiseLevel = 0;
-    timeLeft = 25;
+    timeLeft = 30;
     isBlackout = false;
-    player.x = 225; player.y = 470;
+    parent.x = 225; parent.y = 470;
     baby.state = 'DEEP'; baby.timer = 0; baby.scanRadius = 0;
+    brother.active = false; brother.y = -30;
 
     items = [
-        { type: 'BOTTLE', x: 70, y: 340, r: 16, collected: false },
-        { type: 'BEAR', x: 380, y: 140, r: 18, collected: false },
-        { type: 'RATTLE', x: 370, y: 390, r: 16, collected: false }
+        { type: 'BOTTLE', x: 75, y: 340, r: 16, collected: false },
+        { type: 'BEAR', x: 375, y: 140, r: 18, collected: false },
+        { type: 'RATTLE', x: 360, y: 380, r: 16, collected: false }
     ];
 
-    // 움직이는 장난감 장애물
     obstacles = [
-        { type: 'DUCK', x: 140, y: 410, r: 16, vx: 0.8 },
-        { type: 'BLOCKS', x: 310, y: 320, r: 18, vy: -0.6 },
-        { type: 'DUCK', x: 110, y: 200, r: 16, vx: -0.7 },
-        { type: 'BLOCKS', x: 300, y: 220, r: 18, vx: 0.5 }
+        { type: 'DUCK', x: 130, y: 400, r: 16, vx: 0.6 },
+        { type: 'BLOCKS', x: 310, y: 300, r: 18, vy: -0.5 },
+        { type: 'DUCK', x: 120, y: 220, r: 16, vx: -0.6 }
     ];
 
     document.getElementById('start-screen').classList.add('hidden');
@@ -198,9 +210,12 @@ function initGame() {
         timeLeft--;
         document.getElementById('timer').textContent = timeLeft;
 
-        // 랜덤 정전 이벤트 발생 (8초~15초 사이)
-        if (timeLeft === 18 || timeLeft === 8) {
-            triggerBlackout();
+        // 정전 이벤트 (시간 22초, 10초)
+        if (timeLeft === 22 || timeLeft === 10) triggerBlackout();
+
+        // 첫째 아들 난입 이벤트 (시간 20초, 12초일 때 출몰)
+        if ((timeLeft === 24 || timeLeft === 12) && !brother.active) {
+            spawnBrother();
         }
 
         if (timeLeft <= 0) gameOver(false, "⏰ 시간 초과! 아기가 깨어났습니다!");
@@ -211,13 +226,13 @@ function initGame() {
 
 function triggerBlackout() {
     isBlackout = true;
-    document.getElementById('event-text').textContent = "🚨 정전!!";
-    document.getElementById('event-text').style.color = "#e53e3e";
-    setTimeout(() => {
-        isBlackout = false;
-        document.getElementById('event-text').textContent = "정상";
-        document.getElementById('event-text').style.color = "#f6e05e";
-    }, 3500); // 3.5초 후 복구
+    setTimeout(() => { isBlackout = false; }, 3000);
+}
+
+function spawnBrother() {
+    brother.active = true;
+    brother.x = 225;
+    brother.y = 10; // 문 입구
 }
 
 function gameLoop() {
@@ -228,24 +243,23 @@ function gameLoop() {
 }
 
 function update() {
-    // 1. 아기 패턴 & 애니메이션
+    // 1. 아기 패턴
     baby.timer++;
-    if (baby.state === 'DEEP') {
-        baby.bodyAngle = Math.sin(baby.timer * 0.05) * 0.1; // 조용히 숨쉼
-        if (baby.timer > 100) { baby.state = 'SENSITIVE'; baby.timer = 0; }
-    } else if (baby.state === 'SENSITIVE') {
-        baby.bodyAngle = Math.sin(baby.timer * 0.3) * 0.4; // 격하게 뒤척임!
-        if (baby.timer > 60) { baby.state = 'SCANNING'; baby.timer = 0; baby.scanRadius = 0; }
+    baby.breath += 0.05;
+    if (baby.state === 'DEEP' && baby.timer > 120) {
+        baby.state = 'SENSITIVE'; baby.timer = 0;
+    } else if (baby.state === 'SENSITIVE' && baby.timer > 70) {
+        baby.state = 'SCANNING'; baby.timer = 0; baby.scanRadius = 0;
     } else if (baby.state === 'SCANNING') {
-        baby.scanRadius += 5; // 파동 급속 확대
-        if (baby.scanRadius > 280) { baby.state = 'DEEP'; baby.timer = 0; }
+        baby.scanRadius += 4.5;
+        if (baby.scanRadius > 260) { baby.state = 'DEEP'; baby.timer = 0; }
     }
     updateUI();
 
-    // 2. 이동 조작
+    // 2. 부모 이동
     let isMoving = false;
     let isSneaking = keys.Shift;
-    let speed = isSneaking ? player.sneakSpeed : player.speed;
+    let speed = isSneaking ? parent.sneakSpeed : parent.speed;
 
     let dx = 0, dy = 0;
     if (keys.ArrowUp || keys.w) dy -= 1;
@@ -256,199 +270,253 @@ function update() {
     if (dx !== 0 || dy !== 0) {
         isMoving = true;
         let len = Math.sqrt(dx*dx + dy*dy);
-        player.x += (dx/len) * speed;
-        player.y += (dy/len) * speed;
+        parent.x += (dx/len) * speed;
+        parent.y += (dy/len) * speed;
     }
 
-    player.x = Math.max(15, Math.min(canvas.width - 15, player.x));
-    player.y = Math.max(15, Math.min(canvas.height - 15, player.y));
+    parent.x = Math.max(16, Math.min(canvas.width - 16, parent.x));
+    parent.y = Math.max(16, Math.min(canvas.height - 16, parent.y));
 
-    // 3. 장애물 순찰 이동
+    // 3. 첫째 아들 AI 로직
+    if (brother.active) {
+        // 아기 침대 방향으로 걸어감
+        let bdx = baby.x - brother.x;
+        let bdy = baby.y - brother.y;
+        let blen = Math.sqrt(bdx*bdx + bdy*bdy);
+        brother.x += (bdx/blen) * brother.speed;
+        brother.y += (bdy/blen) * brother.speed;
+
+        // 부모와 부딪히면 -> "조용히 밖으로 나가렴~" 차단 성공!
+        if (Math.hypot(parent.x - brother.x, parent.y - brother.y) < parent.radius + brother.radius + 5) {
+            brother.active = false;
+            brother.y = -30;
+        }
+
+        // 첫째가 아기 침대에 도착해버리면 아기가 깸!
+        if (blen < 30) {
+            gameOver(false, "👦 첫째가 아기를 우당탕 깨워버렸습니다!");
+        }
+    }
+
+    // 4. 장애물 움직임
     obstacles.forEach(obs => {
-        if (obs.vx) {
-            obs.x += obs.vx;
-            if (obs.x < 50 || obs.x > 400) obs.vx *= -1;
-        }
-        if (obs.vy) {
-            obs.y += obs.vy;
-            if (obs.y < 150 || obs.y > 420) obs.vy *= -1;
-        }
+        if (obs.vx) { obs.x += obs.vx; if (obs.x < 50 || obs.x > 400) obs.vx *= -1; }
+        if (obs.vy) { obs.y += obs.vy; if (obs.y < 150 || obs.y > 420) obs.vy *= -1; }
 
-        // 충돌 감지
-        if (Math.hypot(player.x - obs.x, player.y - obs.y) < player.radius + obs.r) {
-            noiseLevel += 4.0;
+        if (Math.hypot(parent.x - obs.x, parent.y - obs.y) < parent.radius + obs.r) {
+            noiseLevel += 3.5;
         }
     });
 
-    // 4. 소음 판정 (파동 검사)
+    // 5. 소음 판정
     let noiseAdded = 0;
     if (baby.state === 'SCANNING') {
-        let distToBaby = Math.hypot(player.x - baby.x, player.y - baby.y);
-        if (Math.abs(distToBaby - baby.scanRadius) < 20 && isMoving) {
-            noiseAdded += 18; // 파동 칠 때 움직이면 소음 대폭발
+        let distToBaby = Math.hypot(parent.x - baby.x, parent.y - baby.y);
+        if (Math.abs(distToBaby - baby.scanRadius) < 18 && isMoving) {
+            noiseAdded += 16;
         }
     }
 
-    if (isMoving) noiseAdded += isSneaking ? 0.1 : 0.6;
+    if (isMoving) noiseAdded += isSneaking ? 0.08 : 0.5;
 
     noiseLevel += noiseAdded;
     if (!isMoving) noiseLevel -= 0.3;
     noiseLevel = Math.max(0, Math.min(100, noiseLevel));
     document.getElementById('noise-bar').style.width = `${noiseLevel}%`;
 
-    // 5. 아이템 회수
+    // 6. 아이템 수집
     let leftCount = 0;
     items.forEach(item => {
         if (!item.collected) {
-            if (Math.hypot(player.x - item.x, player.y - item.y) < player.radius + item.r) {
+            if (Math.hypot(parent.x - item.x, parent.y - item.y) < parent.radius + item.r) {
                 item.collected = true;
             } else { leftCount++; }
         }
     });
 
-    // 6. 게임 오버 조건
+    // 7. 성공/실패
     if (noiseLevel >= 100) {
-        gameOver(false, "💥 으앙~!! 아기가 깨어나 울음을 터뜨렸습니다!");
-    } else if (leftCount === 0 && player.y > 450) {
-        gameOver(true, "🎉 성공! 정전을 뚫고 미션을 완료했습니다!");
+        gameOver(false, "💥 으앙~!! 소리 때문에 아기가 깨어났습니다!");
+    } else if (leftCount === 0 && parent.y > 450) {
+        gameOver(true, "🎉 성공! 완벽하게 둘째를 재우고 탈출했습니다!");
     }
 }
 
 function updateUI() {
     const badge = document.getElementById('baby-state');
     if (baby.state === 'DEEP') {
-        badge.textContent = '😴 꿀잠';
-        badge.className = 'status-badge status-deep';
+        badge.textContent = '😴 꿀잠'; badge.className = 'status-badge status-deep';
     } else if (baby.state === 'SENSITIVE') {
-        badge.textContent = '🥺 뒤척임!';
-        badge.className = 'status-badge status-light';
+        badge.textContent = '🥺 뒤척임!'; badge.className = 'status-badge status-light';
     } else {
-        badge.textContent = '⚠️ 기척 감지! (얼음!)';
-        badge.className = 'status-badge status-danger';
+        badge.textContent = '⚠️ 기척 감지! (얼음!)'; badge.className = 'status-badge status-danger';
     }
 }
 
-// ---------------- 🎨 그래픽 렌더링 ----------------
+// ---------------- 🎨 귀여운 그래픽 렌더링 ----------------
 
-// 진짜 아기 그리기 (침대 위에서 뒤척임)
+// 아기 침대 & 아기
 function drawBaby(x, y) {
     ctx.save();
     ctx.translate(x, y);
 
-    // 침대 난간/배경
-    ctx.fillStyle = '#eddcd2';
-    ctx.beginPath(); ctx.roundRect(-45, -35, 90, 70, 10); ctx.fill();
-    ctx.strokeStyle = '#b08968'; ctx.lineWidth = 3; ctx.stroke();
+    // 파스텔 아기 침대
+    ctx.fillStyle = '#fff0f5';
+    ctx.beginPath(); ctx.roundRect(-45, -35, 90, 70, 16); ctx.fill();
+    ctx.strokeStyle = '#ffb3c1'; ctx.lineWidth = 4; ctx.stroke();
 
-    // 이불
-    ctx.fillStyle = '#a2d2ff';
-    ctx.beginPath(); ctx.roundRect(-40, -10, 80, 40, 8); ctx.fill();
+    // 알록달록 이불
+    ctx.fillStyle = '#b5ead7';
+    ctx.beginPath(); ctx.roundRect(-40, -10, 80, 40, 12); ctx.fill();
 
-    // 아기 몸 (뒤척임 회전 적용)
-    ctx.rotate(baby.bodyAngle);
+    // 숨쉬는 모션
+    let breathOffsetY = Math.sin(baby.breath) * 2;
 
     // 아기 머리
-    ctx.fillStyle = '#ffdbac';
-    ctx.beginPath(); ctx.arc(0, -18, 14, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#ffdfba';
+    ctx.beginPath(); ctx.arc(0, -16 + breathOffsetY, 15, 0, Math.PI * 2); ctx.fill();
 
-    // 아기 머리카락 한 가닥
-    ctx.strokeStyle = '#7f5539'; ctx.lineWidth = 2;
-    ctx.beginPath(); ctx.arc(0, -32, 4, 0, Math.PI); ctx.stroke();
+    // 볼터치
+    ctx.fillStyle = '#ffb3ba';
+    ctx.beginPath(); ctx.arc(-7, -12 + breathOffsetY, 3.5, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.arc(7, -12 + breathOffsetY, 3.5, 0, Math.PI * 2); ctx.fill();
 
-    // 얼굴 (상태별 표정)
-    ctx.fillStyle = '#2b2d42';
+    // 눈 표정
+    ctx.fillStyle = '#5c3d46';
     if (baby.state === 'DEEP') {
-        // 감은 눈 (^^)
-        ctx.font = '10px sans-serif'; ctx.textAlign = 'center';
-        ctx.fillText('︶ ︶', 0, -16);
+        ctx.font = '12px Jua'; ctx.textAlign = 'center';
+        ctx.fillText('︶ ︶', 0, -14 + breathOffsetY);
     } else if (baby.state === 'SENSITIVE') {
-        // 눈살 찌푸림 (＞＜)
-        ctx.font = '10px sans-serif'; ctx.textAlign = 'center';
-        ctx.fillText('><', 0, -16);
+        ctx.font = '12px Jua'; ctx.textAlign = 'center';
+        ctx.fillText('><', 0, -14 + breathOffsetY);
     } else {
-        // 눈 번쩍! (👀)
-        ctx.font = '12px sans-serif'; ctx.textAlign = 'center';
-        ctx.fillText('👀', 0, -16);
+        ctx.font = '14px Jua'; ctx.textAlign = 'center';
+        ctx.fillText('👀', 0, -14 + breathOffsetY);
     }
 
-    // 아기 볼터치
-    ctx.fillStyle = 'rgba(255, 182, 193, 0.7)';
-    ctx.beginPath(); ctx.arc(-7, -13, 3, 0, Math.PI * 2); ctx.fill();
-    ctx.beginPath(); ctx.arc(7, -13, 3, 0, Math.PI * 2); ctx.fill();
+    ctx.restore();
+}
+
+// 엄마/아빠 (플레이어)
+function drawParent(x, y) {
+    ctx.save();
+    ctx.translate(x, y);
+
+    // 몸통
+    ctx.fillStyle = keys.Shift ? '#a8e6cf' : '#ffaaa5';
+    ctx.beginPath(); ctx.arc(0, 0, parent.radius, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = '#fff'; ctx.lineWidth = 3; ctx.stroke();
+
+    // 눈 (귀여운 까만 눈)
+    ctx.fillStyle = '#4a3e3d';
+    ctx.beginPath(); ctx.arc(-5, -3, 2.5, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(5, -3, 2.5, 0, Math.PI*2); ctx.fill();
+
+    // 볼터치
+    ctx.fillStyle = '#ff8b94';
+    ctx.beginPath(); ctx.arc(-8, 1, 2.5, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(8, 1, 2.5, 0, Math.PI*2); ctx.fill();
+
+    ctx.restore();
+}
+
+// 첫째 아들 캐릭터
+function drawBrother(x, y) {
+    ctx.save();
+    ctx.translate(x, y);
+
+    // 첫째 얼굴 (노란 고깔모자 쓴 장난꾸러기)
+    ctx.fillStyle = '#ffdac1';
+    ctx.beginPath(); ctx.arc(0, 0, brother.radius, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = '#ff9aa2'; ctx.lineWidth = 3; ctx.stroke();
+
+    // 장난꾸러기 눈 (＞◡＜)
+    ctx.fillStyle = '#4a3e3d';
+    ctx.font = '12px Jua'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText('＞◡＜', 0, -1);
+
+    // 노란 모자
+    ctx.fillStyle = '#e2f0cb';
+    ctx.beginPath();
+    ctx.moveTo(-8, -10); ctx.lineTo(0, -22); ctx.lineTo(8, -10);
+    ctx.fill();
 
     ctx.restore();
 }
 
 function drawBottle(x, y) {
     ctx.save(); ctx.translate(x, y);
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.9)'; ctx.strokeStyle = '#cbd5e0'; ctx.lineWidth = 2;
-    ctx.beginPath(); ctx.roundRect(-8, -10, 16, 20, 4); ctx.fill(); ctx.stroke();
-    ctx.fillStyle = '#f6ad55'; ctx.beginPath(); ctx.arc(0, -13, 5, Math.PI, 0); ctx.fill();
+    ctx.fillStyle = '#ffffff'; ctx.strokeStyle = '#ffccd5'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.roundRect(-8, -10, 16, 20, 6); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = '#ffb3c1'; ctx.beginPath(); ctx.arc(0, -12, 5, Math.PI, 0); ctx.fill();
     ctx.restore();
 }
 
 function drawBear(x, y) {
     ctx.save(); ctx.translate(x, y);
-    ctx.fillStyle = '#b7791f';
-    ctx.beginPath(); ctx.arc(-10, -10, 5, 0, Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.arc(10, -10, 5, 0, Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.arc(0, -2, 12, 0, Math.PI*2); ctx.fill();
-    ctx.fillStyle = '#2d3748';
-    ctx.beginPath(); ctx.arc(-4, -4, 1.5, 0, Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.arc(4, -4, 1.5, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#e2a970';
+    ctx.beginPath(); ctx.arc(-9, -9, 5, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(9, -9, 5, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(0, -1, 12, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(0, 2, 5, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#5c3d46'; ctx.beginPath(); ctx.arc(0, 0, 2, 0, Math.PI*2); ctx.fill();
     ctx.restore();
 }
 
 function drawRattle(x, y) {
     ctx.save(); ctx.translate(x, y);
-    ctx.strokeStyle = '#4299e1'; ctx.lineWidth = 4;
+    ctx.strokeStyle = '#b5ead7'; ctx.lineWidth = 5;
     ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(0, 14); ctx.stroke();
-    ctx.fillStyle = '#ed64a6'; ctx.beginPath(); ctx.arc(0, -6, 10, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#ff9aa2'; ctx.beginPath(); ctx.arc(0, -6, 10, 0, Math.PI*2); ctx.fill();
     ctx.restore();
 }
 
 function drawDuck(x, y) {
     ctx.save(); ctx.translate(x, y);
-    ctx.fillStyle = '#ecc94b'; ctx.beginPath(); ctx.ellipse(0, 2, 10, 7, 0, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#ffdac1'; ctx.beginPath(); ctx.ellipse(0, 2, 10, 7, 0, 0, Math.PI*2); ctx.fill();
     ctx.beginPath(); ctx.arc(-5, -5, 6, 0, Math.PI*2); ctx.fill();
-    ctx.fillStyle = '#ed8936'; ctx.beginPath(); ctx.arc(-10, -4, 3, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#ff75a0'; ctx.beginPath(); ctx.arc(-10, -4, 3, 0, Math.PI*2); ctx.fill();
     ctx.restore();
 }
 
 function drawBlocks(x, y) {
     ctx.save(); ctx.translate(x, y);
-    ctx.fillStyle = '#4299e1'; ctx.fillRect(-10, 0, 10, 10);
-    ctx.fillStyle = '#48bb78'; ctx.fillRect(0, 0, 10, 10);
-    ctx.fillStyle = '#e53e3e'; ctx.fillRect(-5, -10, 10, 10);
+    ctx.fillStyle = '#b5ead7'; ctx.fillRect(-10, 0, 10, 10);
+    ctx.fillStyle = '#ffdac1'; ctx.fillRect(0, 0, 10, 10);
+    ctx.fillStyle = '#ff9aa2'; ctx.fillRect(-5, -10, 10, 10);
     ctx.restore();
 }
 
 function render() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // 1. 침대 위 아기 그리기
+    // 1. 방 배경 (카펫 격자 느낌)
+    ctx.fillStyle = '#fff5f8';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // 2. 아기 침대
     drawBaby(baby.x, baby.y);
 
-    // 2. 기척 파동
+    // 3. 기척 파동
     if (baby.state === 'SCANNING') {
         ctx.beginPath();
         ctx.arc(baby.x, baby.y, baby.scanRadius, 0, Math.PI * 2);
-        ctx.strokeStyle = 'rgba(229, 62, 62, 0.8)';
+        ctx.strokeStyle = 'rgba(255, 122, 147, 0.6)';
         ctx.lineWidth = 4;
         ctx.stroke();
     }
 
-    // 3. 움직이는 장애물
+    // 4. 장애물
     obstacles.forEach(obs => {
         if (obs.type === 'DUCK') drawDuck(obs.x, obs.y);
         else if (obs.type === 'BLOCKS') drawBlocks(obs.x, obs.y);
     });
 
-    // 4. 육아용품
+    // 5. 육아용품
     items.forEach(item => {
         if (!item.collected) {
             ctx.beginPath(); ctx.arc(item.x, item.y, item.r + 4, 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(237, 137, 54, 0.3)'; ctx.fill();
+            ctx.fillStyle = 'rgba(255, 182, 193, 0.4)'; ctx.fill();
 
             if (item.type === 'BOTTLE') drawBottle(item.x, item.y);
             else if (item.type === 'BEAR') drawBear(item.x, item.y);
@@ -456,29 +524,26 @@ function render() {
         }
     });
 
-    // 5. 플레이어 (발자국 캐릭터)
-    ctx.save();
-    ctx.translate(player.x, player.y);
-    ctx.fillStyle = keys.Shift ? '#4FD1C5' : '#319795';
-    ctx.beginPath(); ctx.ellipse(0, 2, 8, 10, 0, 0, Math.PI*2); ctx.fill();
-    for (let i = -2; i <= 2; i++) {
-        ctx.beginPath(); ctx.arc(i * 3.5, -9, 2, 0, Math.PI*2); ctx.fill();
+    // 6. 첫째 아들 (활성화 상태일 때)
+    if (brother.active) {
+        drawBrother(brother.x, brother.y);
     }
-    ctx.restore();
 
-    // 6. 탈출구
-    ctx.fillStyle = 'rgba(72, 187, 120, 0.6)';
-    ctx.beginPath(); ctx.roundRect(175, 485, 100, 30, 8); ctx.fill();
-    ctx.fillStyle = '#fff'; ctx.font = '14px Jua'; ctx.fillText('🚪 탈출구', 225, 502);
+    // 7. 엄마/아빠 (플레이어)
+    drawParent(parent.x, parent.y);
 
-    // 7. 정전 암전 스포트라이트 효과 (Blackout)
+    // 8. 출구
+    ctx.fillStyle = '#b5ead7';
+    ctx.beginPath(); ctx.roundRect(175, 485, 100, 30, 10); ctx.fill();
+    ctx.fillStyle = '#2d6a4f'; ctx.font = '14px Jua'; ctx.fillText('🚪 탈출구', 225, 503);
+
+    // 9. 정전 효과 (손전등 시야)
     if (isBlackout) {
         ctx.save();
-        ctx.fillStyle = 'rgba(5, 5, 12, 0.94)';
+        ctx.fillStyle = 'rgba(40, 20, 35, 0.93)';
         ctx.beginPath();
         ctx.rect(0, 0, canvas.width, canvas.height);
-        // 플레이어 주변만 시야 구멍 뚫기
-        ctx.arc(player.x, player.y, 65, 0, Math.PI * 2, true);
+        ctx.arc(parent.x, parent.y, 75, 0, Math.PI * 2, true);
         ctx.fill();
         ctx.restore();
     }
@@ -492,7 +557,7 @@ function gameOver(isWin, msg) {
     const endDesc = document.getElementById('end-desc');
 
     endTitle.textContent = isWin ? "🎉 미션 성공!" : "💥 미션 실패!";
-    endTitle.style.color = isWin ? "#68d391" : "#fc8181";
+    endTitle.style.color = isWin ? "#2d6a4f" : "#ff5c8d";
     endDesc.textContent = msg;
     endScreen.classList.remove('hidden');
 }
